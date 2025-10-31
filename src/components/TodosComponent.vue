@@ -19,6 +19,7 @@ enum Filter {
 
 const todos = ref<Todo[]>([]);
 const filter = ref<Filter>(Filter.All);
+let nextId = 1;
 
 const todoAmount = computed(() => todos.value.length);
 
@@ -45,7 +46,7 @@ function addTodo(todoTitle: string) {
   todos.value = [
     ...todos.value,
     {
-      id: todos.value.length + 1,
+      id: nextId++,
       title: todoTitle,
       completed: false,
     }
@@ -101,6 +102,8 @@ function clearCompletedTodos() {
               :todo="todo"
               :index="index"
               @delete-todo="deleteTodo"
+              @toggle-todo="toggleTodo"
+              @edit-todo="editTodo"
           />
         </ul>
       </main>

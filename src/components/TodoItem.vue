@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 const props = defineProps(['todo', 'index']);
-const emit = defineEmits(['delete-todo']);
+const emit = defineEmits(['delete-todo', 'toggle-todo', 'edit-todo']);
 </script>
 
 <template>
@@ -11,7 +11,8 @@ const emit = defineEmits(['delete-todo']);
           <!-- Checkbox -->
           <b-field>
             <b-checkbox
-                v-model="todo.completed"
+                :model-value="todo.completed"
+                @update:model-value="emit('toggle-todo', todo.id, $event)"
             >
               {{ todo.title }}
             </b-checkbox>
@@ -24,7 +25,11 @@ const emit = defineEmits(['delete-todo']);
         <div class="is-flex is-justify-content-space-between">
           <!--  Edit Input with same name as title  -->
           <b-field label="Edit" horizontal>
-            <b-input size="is-small" v-model.trim="todo.title"></b-input>
+            <b-input
+                size="is-small"
+                :model-value="todo.title"
+                @update:model-value="emit('edit-todo', todo.id, $event.trim())"
+            ></b-input>
           </b-field>
         </div>
       </article>
