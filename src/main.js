@@ -1,5 +1,14 @@
 import { createApp } from 'vue'
-import './style.css'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+
+import Buefy from 'buefy'
+import 'buefy/dist/css/buefy.css'
+
+const app = createApp(App);
+
+app.use(Buefy, {
+    defaultIconPack: 'fas',
+});
+
+app.mount('#app')
