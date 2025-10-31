@@ -21,7 +21,7 @@ const todoAmountText = computed(() => {
       <!-- Todo Count   -->
       <div class="column">{{ todoAmountText }}</div>
 
-      <!--  Radio Button Group  -->
+      <!--  Filter Controls  -->
       <b-field class="column buttons marginless">
         <b-radio-button
             v-model="filter"
@@ -46,6 +46,7 @@ const todoAmountText = computed(() => {
         </b-radio-button>
       </b-field>
 
+      <!--  Clear Completed Button  -->
       <b-button class="column" @click="emit('clear-completed')" size="is-small">Clear Completed</b-button>
     </div>
   </article>

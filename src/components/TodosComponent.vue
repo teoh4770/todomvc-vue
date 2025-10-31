@@ -2,7 +2,7 @@
 
 import TodoHeader from "./TodoHeader.vue";
 import TodoFooter from "./TodoFooter.vue";
-import TodoList from "./TodoList.vue";
+import TodoItem from "./TodoItem.vue";
 import {computed, ref} from "vue";
 
 interface Todo {
@@ -21,14 +21,22 @@ const todos = ref<Todo[]>([]);
 const filter = ref<Filter>(Filter.All);
 
 const todoAmount = computed(() => todos.value.length);
+
+const filters = {
+  all: (todos) => todos,
+  active: (todos) => todos.value.filter((todo: Todo) => !todo.completed),
+  completed: (todos) =>  todos.value.filter((todo: Todo) => todo.completed)
+}
+const activeTodos = computed(() => filters.active(todos));
+const completedTodos = computed(() => filters.completed(todos));
 const filteredTodos = computed(() => {
   switch (filter.value) {
     case Filter.Active:
-      return todos.value.filter((todo: Todo) => !todo.completed);
+      return activeTodos;
     case Filter.Completed:
-      return todos.value.filter((todo: Todo) => todo.completed);
+      return completedTodos;
     default:
-      return todos.value;
+      return todos;
   }
 })
 
@@ -85,12 +93,17 @@ function clearCompletedTodos() {
       <h1 class="title has-text-centered mb-6">TodoMVC</h1>
 
       <TodoHeader @add-todo="addTodo"/>
-      <TodoList
-          :todos="filteredTodos"
-          @toggle-todo="toggleTodo"
-          @edit-todo="editTodo"
-          @delete-todo="deleteTodo"
-      />
+      <main>
+        <ul class="todo-list">
+          <TodoItem
+              v-for="(todo, index) in filteredTodos.value"
+              :key="todo.id"
+              :todo="todo"
+              :index="index"
+              @delete-todo="deleteTodo"
+          />
+        </ul>
+      </main>
       <TodoFooter
           v-if="todoAmount > 0"
           :todo-amount="todoAmount"
