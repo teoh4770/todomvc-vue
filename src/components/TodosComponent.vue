@@ -52,32 +52,6 @@ function addTodo(todoTitle: string) {
   ]
 }
 
-function toggleTodo(id: number, completed: boolean) {
-  todos.value = todos.value.map((todo: Todo) => {
-    if (todo.id === id) {
-      return {
-        ...todo,
-        completed: completed
-      }
-    }
-
-    return todo;
-  });
-}
-
-function editTodo(id: number, newTitle: string) {
-  todos.value = todos.value.map((todo: Todo) => {
-    if (todo.id === id) {
-      return {
-        ...todo,
-        title: newTitle
-      }
-    }
-
-    return todo;
-  });
-}
-
 function deleteTodo(id: number) {
   todos.value = todos.value.filter((todo: Todo) => todo.id !== id);
 }
@@ -96,10 +70,10 @@ function clearCompletedTodos() {
       <main>
         <ul class="todo-list">
           <TodoItem
-              v-for="(todo, index) in filteredTodos.value"
+              v-for="(todo) in filteredTodos.value"
               :key="todo.id"
-              :todo="todo"
-              :index="index"
+              v-model:todo-completed="todo.completed"
+              v-model:todo-title="todo.title"
               @delete-todo="deleteTodo"
           />
         </ul>
