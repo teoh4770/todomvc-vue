@@ -24,7 +24,7 @@ const emit = defineEmits(['delete-todo']);
         <div class="is-flex is-justify-content-space-between">
           <!--  Edit Input with same name as title  -->
           <b-field label="Edit" horizontal>
-            <b-input size="is-small" v-model.trim.lazy="todo.title"></b-input>
+            <b-input size="is-small" v-model.trim="todo.title"></b-input>
           </b-field>
         </div>
       </article>
